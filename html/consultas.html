@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Consultas - Sistema Hospitalario</title>
+  <link rel="stylesheet" href="/css/consultas.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="hamburger-menu">
+      <button id="menu-toggle" aria-label="Menú principal">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    <h1 class="site-title">Sistema Hospitalario</h1>
+    <div class="user-info">
+      <span class="user-name">Admin</span>
+      <a href="#" class="logout-btn">Cerrar Sesión</a>
+    </div>
+  </header>
+
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <button id="close-menu" aria-label="Cerrar menú">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="/html/medicos.html">Médicos</a></li>
+      <li><a href="/html/especialidades.html">Especialidades</a></li>
+      <li><a href="/html/centros-medicos.html">Centros Médicos</a></li>
+      <li><a href="/html/consultas.html" class="active">Consultas</a></li>
+      <li><a href="/html/clientes.html">Clientes</a></li>
+      <li><a href="/html/empleados.html">Empleados</a></li>
+    </ul>
+  </nav>
+  
+  <div id="overlay"></div>
+  
+  <main>
+    <section class="content-header">
+      <h1>Gestión de Consultas</h1>
+    </section>
+
+    <div class="content-layout">
+      <!-- Formulario para agregar/editar consulta -->
+      <section class="form-section">
+        <h2 id="formTitle">Nueva Consulta</h2>
+        <form id="consultaForm">
+          <input type="hidden" id="consultaId" value="">
+          
+          <!-- Nuevo selector de especialidades -->
+          <div class="form-group">
+            <label for="especialidad">Especialidad:</label>
+            <select id="especialidad" name="especialidad" required>
+              <option value="">Seleccionar especialidad</option>
+              <!-- Opciones se cargarán desde JS -->
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="medico">Médico:</label>
+            <select id="medico" name="medico" required>
+              <option value="">Seleccionar médico</option>
+              <!-- Opciones se filtrarán según especialidad desde JS -->
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="cliente">Paciente:</label>
+            <select id="cliente" name="cliente" required>
+              <option value="">Seleccionar paciente</option>
+              <!-- Opciones se cargarán desde JS -->
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="fechaConsulta">Fecha y Hora:</label>
+            <input type="datetime-local" id="fechaConsulta" name="fechaConsulta" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="diagnostico">Diagnóstico:</label>
+            <textarea id="diagnostico" name="diagnostico" rows="3"></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="tratamiento">Tratamiento:</label>
+            <textarea id="tratamiento" name="tratamiento" rows="3"></textarea>
+          </div>
+          
+          <div class="form-buttons">
+            <button type="button" id="btnLimpiar" class="btn btn-cancel">Limpiar</button>
+            <button type="submit" class="btn btn-submit">Guardar</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Sección de datos (tabla) -->
+      <section class="data-section">
+        <!-- Sección de búsqueda y filtros -->
+        <div class="search-container">
+          <input type="text" id="searchInput" placeholder="Buscar por médico, paciente o diagnóstico...">
+          <div class="filter-options">
+            <select id="filterEspecialidad">
+              <option value="">Todas las especialidades</option>
+              <!-- Opciones se cargarán desde JS -->
+            </select>
+            <select id="filterMedico">
+              <option value="">Todos los médicos</option>
+              <!-- Opciones se cargarán desde JS -->
+            </select>
+            <input type="date" id="filterFecha" placeholder="Filtrar por fecha">
+          </div>
+          <button id="btnBuscar" class="btn btn-search">Buscar</button>
+        </div>
+
+        <!-- Tabla de consultas -->
+        <div class="table-container">
+          <table id="tablaConsultas">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Médico</th>
+                <th>Especialidad</th>
+                <th>Paciente</th>
+                <th>Fecha y Hora</th>
+                <th>Diagnóstico</th>
+                <th>Tratamiento</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Los datos se cargarán dinámicamente con JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Modal para ver detalles de consulta -->
+  <div id="consultaModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Detalles de la Consulta</h2>
+      <div id="consultaDetails">
+        <div class="detail-row">
+          <span class="detail-label">Especialidad:</span>
+          <span id="detailEspecialidad" class="detail-value"></span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Médico:</span>
+          <span id="detailMedico" class="detail-value"></span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Paciente:</span>
+          <span id="detailPaciente" class="detail-value"></span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Fecha y Hora:</span>
+          <span id="detailFecha" class="detail-value"></span>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Diagnóstico:</span>
+          <p id="detailDiagnostico" class="detail-value detail-text"></p>
+        </div>
+        <div class="detail-row">
+          <span class="detail-label">Tratamiento:</span>
+          <p id="detailTratamiento" class="detail-value detail-text"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2025 Sistema Hospitalario Integrado</p>
+    </div>
+  </footer>
+
+  <script src="/js/consultas.js"></script>
+</body>
+</html>

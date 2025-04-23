@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Centros Médicos - Sistema Hospitalario</title>
+  <link rel="stylesheet" href="/css/centros-medicos.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="hamburger-menu">
+      <button id="menu-toggle" aria-label="Menú principal">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    <h1 class="site-title">Sistema Hospitalario</h1>
+    <div class="user-info">
+      <span class="user-name">Admin</span>
+      <a href="#" class="logout-btn">Cerrar Sesión</a>
+    </div>
+  </header>
+
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <button id="close-menu" aria-label="Cerrar menú">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="medicos.html">Médicos</a></li>
+      <li><a href="especialidades.html">Especialidades</a></li>
+      <li><a href="centros-medicos.html" class="active">Centros Médicos</a></li>
+      <li><a href="consultas.html">Consultas</a></li>
+      <li><a href="clientes.html">Clientes</a></li>
+      <li><a href="empleados.html">Empleados</a></li>
+    </ul>
+  </nav>
+ 
+  <div id="overlay"></div>
+ 
+  <main>
+    <section class="content-header">
+      <h1>Gestión de Centros Médicos</h1>
+    </section>
+
+    <!-- Formulario para agregar/editar centro médico -->
+    <section class="form-section">
+      <h2>Nuevo Centro Médico</h2>
+      <form id="centroMedicoForm">
+        <input type="hidden" id="centroId" value="">
+        
+        <div class="form-group">
+          <label for="nombre">Nombre:</label>
+          <input type="text" id="nombre" name="nombre" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="ciudad">Ciudad:</label>
+          <input type="text" id="ciudad" name="ciudad" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="direccion">Dirección:</label>
+          <input type="text" id="direccion" name="direccion">
+        </div>
+        
+        <div class="form-group">
+          <label for="telefono">Teléfono:</label>
+          <input type="tel" id="telefono" name="telefono">
+        </div>
+        
+        <div class="form-buttons">
+          <button type="button" id="btnLimpiar" class="btn btn-cancel">Limpiar</button>
+          <button type="submit" class="btn btn-submit">Guardar</button>
+        </div>
+      </form>
+    </section>
+    
+    <!-- Sección de búsqueda -->
+    <div class="search-section">
+      <div class="search-input-container">
+        <input type="text" id="searchInput" placeholder="Buscar por nombre de centro médico...">
+      </div>
+      <div class="search-button-container">
+        <button id="btnBuscar" class="btn btn-search">Buscar</button>
+      </div>
+    </div>
+    
+    <!-- Tabla de centros médicos -->
+    <div class="table-container">
+      <table id="tablaCentrosMedicos">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Ciudad</th>
+            <th>Dirección</th>
+            <th>Teléfono</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Aquí se cargarán los datos desde la API -->
+        </tbody>
+      </table>
+    </div>
+  </main>
+  
+  <footer>
+    <p>&copy; 2025 Sistema Hospitalario Integrado</p>
+  </footer>
+
+  <!-- Código básico para funcionalidad de menú desplegable -->
+  <script>
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.add('active');
+      document.getElementById('overlay').classList.add('active');
+    });
+    
+    document.getElementById('close-menu').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.remove('active');
+      document.getElementById('overlay').classList.remove('active');
+    });
+    
+    document.getElementById('overlay').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.remove('active');
+      document.getElementById('overlay').classList.remove('active');
+    });
+  </script>
+  
+  <!-- Importar el archivo JavaScript para la gestión de centros médicos -->
+  <script src="/js/centros-medicos.js"></script>
+</body>
+</html>

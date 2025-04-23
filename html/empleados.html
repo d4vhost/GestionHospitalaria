@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Empleados - Sistema Hospitalario</title>
+  <link rel="stylesheet" href="/css/empleados.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="hamburger-menu">
+      <button id="menu-toggle" aria-label="Menú principal">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    <h1 class="site-title">Sistema Hospitalario</h1>
+    <div class="user-info">
+      <span class="user-name">Admin</span>
+      <a href="#" class="logout-btn">Cerrar Sesión</a>
+    </div>
+  </header>
+
+  <nav id="sidebar">
+    <div class="sidebar-header">
+      <button id="close-menu" aria-label="Cerrar menú">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="/html/medicos.html">Médicos</a></li>
+      <li><a href="/html/especialidades.html">Especialidades</a></li>
+      <li><a href="/html/centros-medicos.html">Centros Médicos</a></li>
+      <li><a href="/html/consultas.html">Consultas</a></li>
+      <li><a href="/html/clientes.html">Clientes</a></li>
+      <li><a href="/html/empleados.html" class="active">Empleados</a></li>
+    </ul>
+  </nav>
+ 
+  <div id="overlay"></div>
+ 
+  <main>
+    <section class="content-header">
+      <h1>Gestión de Empleados</h1>
+    </section>
+
+    <div class="content-layout">
+      <!-- Formulario para agregar/editar empleados -->
+      <section class="form-section">
+        <h2 id="formTitle">Nuevo Empleado</h2>
+        <form id="empleadoForm">
+          <input type="hidden" id="empleadoId" value="">
+          
+          <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="cargo">Cargo:</label>
+            <input type="text" id="cargo" name="cargo">
+          </div>
+          
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+          </div>
+          
+          <div class="form-group">
+            <label for="telefono">Teléfono:</label>
+            <input type="tel" id="telefono" name="telefono">
+          </div>
+          
+          <div class="form-buttons">
+            <button type="button" id="btnLimpiar" class="btn btn-cancel">Limpiar</button>
+            <button type="submit" class="btn btn-submit">Guardar</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Sección de datos (tabla) -->
+      <section class="data-section">
+        <!-- Sección de búsqueda -->
+        <div class="search-container">
+          <input type="text" id="searchInput" placeholder="Buscar por nombre o apellido...">
+          <button id="btnBuscar" class="btn btn-search">Buscar</button>
+        </div>
+
+        <!-- Tabla de empleados -->
+        <div class="table-container">
+          <table id="tablaEmpleados">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Cargo</th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Los datos se cargarán dinámicamente con JS -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+  
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2025 Sistema Hospitalario Integrado</p>
+    </div>
+  </footer>
+
+  <!-- Código básico para funcionalidad de menú desplegable -->
+  <script>
+    document.getElementById('menu-toggle').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.add('active');
+      document.getElementById('overlay').classList.add('active');
+    });
+    
+    document.getElementById('close-menu').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.remove('active');
+      document.getElementById('overlay').classList.remove('active');
+    });
+    
+    document.getElementById('overlay').addEventListener('click', function() {
+      document.getElementById('sidebar').classList.remove('active');
+      document.getElementById('overlay').classList.remove('active');
+    });
+  </script>
+  
+  <!-- Importar el archivo JavaScript para la gestión de empleados -->
+  <script src="/js/empleados.js"></script>
+</body>
+</html>
