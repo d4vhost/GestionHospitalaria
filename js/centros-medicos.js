@@ -1,206 +1,186 @@
-// Constantes para la API
+// Variables globales
 const API_URL = 'https://localhost:7207/api/CentroMedicos';
+let modoEdicion = false;
 
 // Elementos del DOM
-const centroMedicoForm = document.getElementById('centroMedicoForm');
-const centroIdInput = document.getElementById('centroId');
+const form = document.getElementById('centroMedicoForm');
+const idInput = document.getElementById('centroId');
 const nombreInput = document.getElementById('nombre');
 const ciudadInput = document.getElementById('ciudad');
 const direccionInput = document.getElementById('direccion');
 const telefonoInput = document.getElementById('telefono');
 const btnLimpiar = document.getElementById('btnLimpiar');
-const btnBuscar = document.getElementById('btnBuscar');
 const searchInput = document.getElementById('searchInput');
-const tablaCentrosMedicos = document.getElementById('tablaCentrosMedicos').getElementsByTagName('tbody')[0];
+const btnBuscar = document.getElementById('btnBuscar');
+const tabla = document.getElementById('tablaCentrosMedicos').querySelector('tbody');
 
-// Función para cargar todos los centros médicos
-async function cargarCentrosMedicos() {
-  try {
-    const response = await fetch(API_URL);
-    if (!response.ok) {
-      throw new Error('Error al cargar los centros médicos');
-    }
-    const data = await response.json();
-    // Extraer el array de valores desde la respuesta
-    const centrosMedicos = data.$values || [];
-    mostrarCentrosMedicos(centrosMedicos);
-  } catch (error) {
-    console.error('Error:', error);
-    alert('No se pudieron cargar los centros médicos. Por favor, intente nuevamente.');
-  }
-}
+// Menú hamburguesa
+function initMenuHamburguesa() {
+  const menuToggle = document.getElementById('menu-toggle');
+  const closeMenu = document.getElementById('close-menu');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
 
-// Función para mostrar los centros médicos en la tabla
-function mostrarCentrosMedicos(centrosMedicos) {
-  // Limpiar la tabla
-  tablaCentrosMedicos.innerHTML = '';
-  
-  // Verificar si hay centros para mostrar
-  if (!centrosMedicos || centrosMedicos.length === 0) {
-    const row = tablaCentrosMedicos.insertRow();
-    const cell = row.insertCell(0);
-    cell.colSpan = 6;
-    cell.textContent = 'No hay centros médicos disponibles';
-    cell.style.textAlign = 'center';
-    return;
-  }
-  
-  // Llenar la tabla con los datos
-  centrosMedicos.forEach(centro => {
-    const row = tablaCentrosMedicos.insertRow();
-    
-    row.insertCell(0).textContent = centro.centroID;
-    row.insertCell(1).textContent = centro.nombre;
-    row.insertCell(2).textContent = centro.ciudad;
-    
-    const cellDireccion = row.insertCell(3);
-    cellDireccion.textContent = centro.direccion || '';
-    cellDireccion.classList.add('direccion-cell');
-    
-    row.insertCell(4).textContent = centro.telefono || '';
-    
-    // Celda para acciones (editar y eliminar)
-    const cellAcciones = row.insertCell(5);
-    
-    // Botón editar
-    const btnEditar = document.createElement('button');
-    btnEditar.innerHTML = '<i class="fas fa-edit"></i>';
-    btnEditar.className = 'btn-action btn-edit';
-    btnEditar.title = 'Editar';
-    btnEditar.onclick = () => cargarCentroParaEditar(centro);
-    cellAcciones.appendChild(btnEditar);
-    
-    // Botón eliminar
-    const btnEliminar = document.createElement('button');
-    btnEliminar.innerHTML = '<i class="fas fa-trash-alt"></i>';
-    btnEliminar.className = 'btn-action btn-delete';
-    btnEliminar.title = 'Eliminar';
-    btnEliminar.onclick = () => eliminarCentroMedico(centro.centroID);
-    cellAcciones.appendChild(btnEliminar);
+  menuToggle.addEventListener('click', () => {
+    sidebar.classList.add('active');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+
+  closeMenu.addEventListener('click', () => {
+    sidebar.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+
+  overlay.addEventListener('click', () => {
+    sidebar.classList.remove('active');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
   });
 }
 
-// Función para buscar centros médicos
-async function buscarCentrosMedicos() {
-  const searchTerm = searchInput.value.trim();
-  
+// Mostrar notificación
+function mostrarNotificacion(mensaje, tipo = 'success') {
+  const notificacion = document.getElementById('notificacion') || document.createElement('div');
+  notificacion.id = 'notificacion';
+  notificacion.className = `notification ${tipo}`;
+  notificacion.textContent = mensaje;
+  document.body.appendChild(notificacion);
+
+  notificacion.classList.add('show');
+  setTimeout(() => notificacion.classList.remove('show'), 3000);
+}
+
+// CRUD
+async function cargarCentros() {
   try {
-    let url = API_URL;
-    if (searchTerm) {
-      url = `${API_URL}/buscar?nombre=${encodeURIComponent(searchTerm)}`;
-    }
-    
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error('Error en la búsqueda');
-    }
-    
-    const data = await response.json();
-    // Extraer el array de valores desde la respuesta
-    const centrosMedicos = data.$values || [];
-    mostrarCentrosMedicos(centrosMedicos);
-  } catch (error) {
-    console.error('Error:', error);
-    alert('Error al realizar la búsqueda. Por favor, intente nuevamente.');
+    const res = await fetch(API_URL);
+    if (!res.ok) throw new Error('Error al cargar los centros médicos');
+    const data = await res.json();
+    renderizarTabla(data.$values || data);
+  } catch (err) {
+    console.error(err);
+    mostrarNotificacion('No se pudieron cargar los centros médicos', 'error');
   }
 }
 
-// Función para guardar un centro médico (crear o actualizar)
-async function guardarCentroMedico(event) {
-  event.preventDefault();
-  
-  const centroMedico = {
-    nombre: nombreInput.value,
-    ciudad: ciudadInput.value,
-    direccion: direccionInput.value,
-    telefono: telefonoInput.value,
-    medicos: [] // Añadimos el campo 'medicos' vacío para mantener la estructura
-  };
-  
-  const id = centroIdInput.value;
-  const isEditing = id !== '';
-  
-  if (isEditing) {
-    centroMedico.centroID = parseInt(id);
-  }
-  
-  try {
-    const url = isEditing ? `${API_URL}/${id}` : API_URL;
-    const method = isEditing ? 'PUT' : 'POST';
-    
-    const response = await fetch(url, {
-      method: method,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(centroMedico)
-    });
-    
-    if (!response.ok) {
-      throw new Error(`Error al ${isEditing ? 'actualizar' : 'crear'} el centro médico`);
-    }
-    
-    // Limpiar el formulario y recargar los datos
-    limpiarFormulario();
-    cargarCentrosMedicos();
-    
-    alert(`Centro médico ${isEditing ? 'actualizado' : 'creado'} correctamente`);
-  } catch (error) {
-    console.error('Error:', error);
-    alert(`Error al ${isEditing ? 'actualizar' : 'crear'} el centro médico. Por favor, intente nuevamente.`);
-  }
-}
-
-// Función para cargar un centro médico para editar
-function cargarCentroParaEditar(centro) {
-  centroIdInput.value = centro.centroID;
-  nombreInput.value = centro.nombre;
-  ciudadInput.value = centro.ciudad;
-  direccionInput.value = centro.direccion || '';
-  telefonoInput.value = centro.telefono || '';
-  
-  // Cambiar texto del formulario
-  document.querySelector('.form-section h2').textContent = 'Editar Centro Médico';
-}
-
-// Función para eliminar un centro médico
-async function eliminarCentroMedico(id) {
-  if (!confirm('¿Está seguro que desea eliminar este centro médico?')) {
+function renderizarTabla(centros) {
+  tabla.innerHTML = '';
+  if (!centros.length) {
+    const row = tabla.insertRow();
+    const cell = row.insertCell();
+    cell.colSpan = 6;
+    cell.classList.add('text-center');
+    cell.textContent = 'No hay centros médicos disponibles';
     return;
   }
-  
+
+  centros.forEach(centro => {
+    const row = tabla.insertRow();
+    row.innerHTML = `
+      <td>${centro.centroID}</td>
+      <td>${centro.nombre}</td>
+      <td>${centro.ciudad}</td>
+      <td>${centro.direccion || ''}</td>
+      <td>${centro.telefono || ''}</td>
+      <td>
+        <button class="btn-action btn-edit" title="Editar" onclick='editarCentro(${JSON.stringify(centro)})'>
+          <i class="fas fa-edit"></i>
+        </button>
+        <button class="btn-action btn-delete" title="Eliminar" onclick='eliminarCentro(${centro.centroID})'>
+          <i class="fas fa-trash"></i>
+        </button>
+      </td>
+    `;
+  });
+}
+
+function editarCentro(centro) {
+  idInput.value = centro.centroID;
+  nombreInput.value = centro.nombre;
+  ciudadInput.value = centro.ciudad;
+  direccionInput.value = centro.direccion;
+  telefonoInput.value = centro.telefono;
+  modoEdicion = true;
+  document.querySelector('.form-section h2').textContent = 'Editar Centro Médico';
+  form.scrollIntoView({ behavior: 'smooth' });
+}
+
+async function eliminarCentro(id) {
+  if (!confirm('¿Está seguro de eliminar este centro médico?')) return;
   try {
-    const response = await fetch(`${API_URL}/${id}`, {
-      method: 'DELETE'
-    });
-    
-    if (!response.ok) {
-      throw new Error('Error al eliminar el centro médico');
-    }
-    
-    // Recargar la lista de centros médicos
-    cargarCentrosMedicos();
-    alert('Centro médico eliminado correctamente');
-  } catch (error) {
-    console.error('Error:', error);
-    alert('Error al eliminar el centro médico. Por favor, intente nuevamente.');
+    const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+    if (!res.ok) throw new Error();
+    mostrarNotificacion('Centro médico eliminado correctamente');
+    cargarCentros();
+  } catch {
+    mostrarNotificacion('Error al eliminar centro médico', 'error');
   }
 }
 
-// Función para limpiar el formulario
+async function guardarCentro(e) {
+  e.preventDefault();
+  const centro = {
+    nombre: nombreInput.value.trim(),
+    ciudad: ciudadInput.value.trim(),
+    direccion: direccionInput.value.trim(),
+    telefono: telefonoInput.value.trim()
+  };
+  const method = modoEdicion ? 'PUT' : 'POST';
+  let url = API_URL;
+  if (modoEdicion) {
+    centro.centroID = parseInt(idInput.value);
+    url += `/${centro.centroID}`;
+  }
+
+  try {
+    const res = await fetch(url, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(centro)
+    });
+    if (!res.ok) throw new Error();
+    mostrarNotificacion(`Centro ${modoEdicion ? 'actualizado' : 'creado'} correctamente`);
+    limpiarFormulario();
+    cargarCentros();
+  } catch {
+    mostrarNotificacion(`Error al ${modoEdicion ? 'actualizar' : 'crear'} centro médico`, 'error');
+  }
+}
+
 function limpiarFormulario() {
-  centroMedicoForm.reset();
-  centroIdInput.value = '';
+  form.reset();
+  idInput.value = '';
+  modoEdicion = false;
   document.querySelector('.form-section h2').textContent = 'Nuevo Centro Médico';
 }
 
-// Event Listeners
-window.addEventListener('DOMContentLoaded', cargarCentrosMedicos);
-centroMedicoForm.addEventListener('submit', guardarCentroMedico);
-btnLimpiar.addEventListener('click', limpiarFormulario);
-btnBuscar.addEventListener('click', buscarCentrosMedicos);
-searchInput.addEventListener('keypress', function(e) {
-  if (e.key === 'Enter') {
-    buscarCentrosMedicos();
+async function buscarCentros() {
+  const termino = searchInput.value.trim().toLowerCase();
+  if (!termino) return cargarCentros();
+
+  try {
+    const res = await fetch(API_URL);
+    const data = await res.json();
+    const centros = data.$values || data;
+    const filtrados = centros.filter(c =>
+      c.nombre.toLowerCase().includes(termino) ||
+      c.ciudad.toLowerCase().includes(termino) ||
+      (c.direccion && c.direccion.toLowerCase().includes(termino))
+    );
+    renderizarTabla(filtrados);
+  } catch (err) {
+    mostrarNotificacion('Error al buscar centros médicos', 'error');
   }
+}
+
+// Eventos
+window.addEventListener('DOMContentLoaded', () => {
+  initMenuHamburguesa();
+  cargarCentros();
+  form.addEventListener('submit', guardarCentro);
+  btnLimpiar.addEventListener('click', limpiarFormulario);
+  btnBuscar.addEventListener('click', buscarCentros);
+  searchInput.addEventListener('keypress', e => e.key === 'Enter' && buscarCentros());
 });

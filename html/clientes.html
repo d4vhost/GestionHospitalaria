@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gestión de Clientes - Sistema Hospitalario</title>
   <link rel="stylesheet" href="/css/clientes.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <header>
@@ -14,10 +14,17 @@
         <i class="fas fa-bars"></i>
       </button>
     </div>
-    <h1 class="site-title">Sistema Hospitalario</h1>
+    <h1 class="site-title">
+      <i class="fas fa-hospital-alt"></i>
+      Sistema Hospitalario
+    </h1>
     <div class="user-info">
+      <i class="fas fa-user-circle"></i>
       <span class="user-name">Admin</span>
-      <a href="#" class="logout-btn">Cerrar Sesión</a>
+      <a href="#" class="logout-btn">
+        <i class="fas fa-sign-out-alt"></i>
+        Cerrar Sesión
+      </a>
     </div>
   </header>
 
@@ -28,13 +35,48 @@
       </button>
     </div>
     <ul>
-      <li><a href="index.html">Inicio</a></li>
-      <li><a href="/html/medicos.html">Médicos</a></li>
-      <li><a href="/html/especialidades.html">Especialidades</a></li>
-      <li><a href="/html/centros-medicos.html">Centros Médicos</a></li>
-      <li><a href="/html/consultas.html">Consultas</a></li>
-      <li><a href="/html/clientes.html" class="active">Clientes</a></li>
-      <li><a href="/html/empleados.html">Empleados</a></li>
+      <li>
+        <a href="home.html">
+          <i class="fas fa-home"></i>
+          <span>Inicio</span>
+        </a>
+      </li>
+      <li>
+        <a href="/html/medicos.html">
+          <i class="fas fa-user-md"></i>
+          <span>Médicos</span>
+        </a>
+      </li>
+      <li>
+        <a href="/html/especialidades.html">
+          <i class="fas fa-stethoscope"></i>
+          <span>Especialidades</span>
+        </a>
+      </li>
+      <li>
+        <a href="/html/centros-medicos.html">
+          <i class="fas fa-hospital"></i>
+          <span>Centros Médicos</span>
+        </a>
+      </li>
+      <li>
+        <a href="/html/consultas.html">
+          <i class="fas fa-calendar-check"></i>
+          <span>Consultas</span>
+        </a>
+      </li>
+      <li>
+        <a href="/html/clientes.html" class="active">
+          <i class="fas fa-users"></i>
+          <span>Clientes</span>
+        </a>
+      </li>
+      <li>
+        <a href="/html/empleados.html">
+          <i class="fas fa-id-badge"></i>
+          <span>Empleados</span>
+        </a>
+      </li>
     </ul>
   </nav>
   
@@ -42,39 +84,63 @@
   
   <main>
     <section class="content-header">
-      <h1>Gestión de Clientes</h1>
+      <h1>
+        <i class="fas fa-users"></i>
+        Gestión de Clientes
+      </h1>
     </section>
 
     <div class="content-layout">
       <!-- Formulario para agregar/editar cliente -->
       <section class="form-section">
-        <h2 id="formTitle">Nuevo Cliente</h2>
+        <h2 id="formTitle">
+          <i class="fas fa-user-plus"></i>
+          Nuevo Cliente
+        </h2>
         <form id="clienteForm">
           <input type="hidden" id="clienteId" value="">
           
           <div class="form-group">
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required>
+            <label for="nombre">
+              <i class="fas fa-user"></i>
+              Nombre:
+            </label>
+            <input type="text" id="nombre" name="nombre" required placeholder="Ingrese el nombre">
           </div>
           
           <div class="form-group">
-            <label for="apellido">Apellido:</label>
-            <input type="text" id="apellido" name="apellido" required>
+            <label for="apellido">
+              <i class="fas fa-user"></i>
+              Apellido:
+            </label>
+            <input type="text" id="apellido" name="apellido" required placeholder="Ingrese el apellido">
           </div>
           
           <div class="form-group">
-            <label for="correo">Correo electrónico:</label>
-            <input type="email" id="correo" name="correo">
+            <label for="correo">
+              <i class="fas fa-envelope"></i>
+              Correo electrónico:
+            </label>
+            <input type="email" id="correo" name="correo" placeholder="correo@ejemplo.com">
           </div>
           
           <div class="form-group">
-            <label for="telefono">Teléfono:</label>
-            <input type="tel" id="telefono" name="telefono">
+            <label for="telefono">
+              <i class="fas fa-phone"></i>
+              Teléfono:
+            </label>
+            <input type="tel" id="telefono" name="telefono" placeholder="(000) 000-0000">
           </div>
           
           <div class="form-buttons">
-            <button type="button" id="btnLimpiar" class="btn btn-cancel">Limpiar</button>
-            <button type="submit" class="btn btn-submit">Guardar</button>
+            <button type="button" id="btnLimpiar" class="btn btn-cancel">
+              <i class="fas fa-eraser"></i>
+              Limpiar
+            </button>
+            <button type="submit" class="btn btn-submit">
+              <i class="fas fa-save"></i>
+              Guardar
+            </button>
           </div>
         </form>
       </section>
@@ -83,8 +149,14 @@
       <section class="data-section">
         <!-- Sección de búsqueda y filtros -->
         <div class="search-container">
-          <input type="text" id="searchInput" placeholder="Buscar por nombre, apellido o correo...">
-          <button id="btnBuscar" class="btn btn-search">Buscar</button>
+          <div class="search-input-wrapper">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="searchInput" placeholder="Buscar por nombre, apellido o correo...">
+          </div>
+          <button id="btnBuscar" class="btn btn-search">
+            <i class="fas fa-search"></i>
+            Buscar
+          </button>
         </div>
 
         <!-- Tabla de clientes -->
@@ -92,12 +164,30 @@
           <table id="tablaClientes">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Correo</th>
-                <th>Teléfono</th>
-                <th>Acciones</th>
+                <th>
+                  <i class="fas fa-hashtag"></i>
+                  ID
+                </th>
+                <th>
+                  <i class="fas fa-user"></i>
+                  Nombre
+                </th>
+                <th>
+                  <i class="fas fa-user"></i>
+                  Apellido
+                </th>
+                <th>
+                  <i class="fas fa-envelope"></i>
+                  Correo
+                </th>
+                <th>
+                  <i class="fas fa-phone"></i>
+                  Teléfono
+                </th>
+                <th>
+                  <i class="fas fa-cogs"></i>
+                  Acciones
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -113,33 +203,60 @@
   <div id="clienteModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
-      <h2>Detalles del Cliente</h2>
+      <h2>
+        <i class="fas fa-user-circle"></i>
+        Detalles del Cliente
+      </h2>
       <div id="clienteDetails">
         <div class="detail-row">
-          <span class="detail-label">Nombre Completo:</span>
+          <span class="detail-label">
+            <i class="fas fa-id-card"></i>
+            Nombre Completo:
+          </span>
           <span id="detailNombreCompleto" class="detail-value"></span>
         </div>
         <div class="detail-row">
-          <span class="detail-label">Correo electrónico:</span>
+          <span class="detail-label">
+            <i class="fas fa-envelope"></i>
+            Correo electrónico:
+          </span>
           <span id="detailCorreo" class="detail-value"></span>
         </div>
         <div class="detail-row">
-          <span class="detail-label">Teléfono:</span>
+          <span class="detail-label">
+            <i class="fas fa-phone"></i>
+            Teléfono:
+          </span>
           <span id="detailTelefono" class="detail-value"></span>
         </div>
         <div class="detail-row">
-          <span class="detail-label">Última consulta:</span>
+          <span class="detail-label">
+            <i class="fas fa-clock"></i>
+            Última consulta:
+          </span>
           <span id="detailUltimaConsulta" class="detail-value"></span>
         </div>
         <div class="detail-row">
-          <span class="detail-label">Historial de consultas:</span>
+          <span class="detail-label">
+            <i class="fas fa-history"></i>
+            Historial de consultas:
+          </span>
           <div id="detailHistorial" class="detail-value">
             <table id="tablaHistorialConsultas" class="detail-table">
               <thead>
                 <tr>
-                  <th>Fecha</th>
-                  <th>Médico</th>
-                  <th>Diagnóstico</th>
+                  <th>
+                    <i class="fas fa-calendar"></i>
+                    Fecha
+                  </th>
+                  <th>
+                    <i class="fas fa-user-md"></i>
+                    Médico
+                  </th>
+                  <th>
+                    <i class="fas fa-diagnoses"></i>
+                    Diagnóstico
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -154,7 +271,10 @@
 
   <footer>
     <div class="footer-content">
-      <p>&copy; 2025 Sistema Hospitalario Integrado</p>
+      <p>
+        <i class="fas fa-copyright"></i>
+        2025 Sistema Hospitalario Integrado
+      </p>
     </div>
   </footer>
 

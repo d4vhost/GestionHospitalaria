@@ -14,10 +14,17 @@
         <i class="fas fa-bars"></i>
       </button>
     </div>
-    <h1 class="site-title">Sistema Hospitalario</h1>
+    <h1 class="site-title">
+      <i class="fas fa-hospital"></i>
+      Sistema Hospitalario
+    </h1>
     <div class="user-info">
+      <i class="fas fa-user-shield"></i>
       <span class="user-name">Admin</span>
-      <a href="#" class="logout-btn">Cerrar Sesión</a>
+      <a href="#" class="logout-btn">
+        <i class="fas fa-sign-out-alt"></i>
+        Cerrar Sesión
+      </a>
     </div>
   </header>
 
@@ -28,13 +35,48 @@
       </button>
     </div>
     <ul>
-      <li><a href="index.html">Inicio</a></li>
-      <li><a href="/html/medicos.html">Médicos</a></li>
-      <li><a href="/html/especialidades.html">Especialidades</a></li>
-      <li><a href="/html/centros-medicos.html">Centros Médicos</a></li>
-      <li><a href="/html/consultas.html">Consultas</a></li>
-      <li><a href="/html/clientes.html">Clientes</a></li>
-      <li><a href="/html/empleados.html" class="active">Empleados</a></li>
+      <li>
+        <a href="home.html">
+          <i class="fas fa-home"></i>
+          Inicio
+        </a>
+      </li>
+      <li>
+        <a href="/html/medicos.html">
+          <i class="fas fa-user-md"></i>
+          Médicos
+        </a>
+      </li>
+      <li>
+        <a href="/html/especialidades.html">
+          <i class="fas fa-stethoscope"></i>
+          Especialidades
+        </a>
+      </li>
+      <li>
+        <a href="/html/centros-medicos.html">
+          <i class="fas fa-hospital-alt"></i>
+          Centros Médicos
+        </a>
+      </li>
+      <li>
+        <a href="/html/consultas.html">
+          <i class="fas fa-calendar-check"></i>
+          Consultas
+        </a>
+      </li>
+      <li>
+        <a href="/html/clientes.html">
+          <i class="fas fa-users"></i>
+          Clientes
+        </a>
+      </li>
+      <li>
+        <a href="/html/empleados.html" class="active">
+          <i class="fas fa-id-badge"></i>
+          Empleados
+        </a>
+      </li>
     </ul>
   </nav>
  
@@ -42,44 +84,71 @@
  
   <main>
     <section class="content-header">
-      <h1>Gestión de Empleados</h1>
+      <h1>
+        <i class="fas fa-users-cog"></i>
+        Gestión de Empleados
+      </h1>
     </section>
 
     <div class="content-layout">
       <!-- Formulario para agregar/editar empleados -->
       <section class="form-section">
-        <h2 id="formTitle">Nuevo Empleado</h2>
+        <h2 id="formTitle">
+          <i class="fas fa-user-plus"></i>
+          Nuevo Empleado
+        </h2>
         <form id="empleadoForm">
           <input type="hidden" id="empleadoId" value="">
           
           <div class="form-group">
-            <label for="nombre">Nombre:</label>
+            <label for="nombre">
+              <i class="fas fa-user"></i>
+              Nombre:
+            </label>
             <input type="text" id="nombre" name="nombre" required>
           </div>
           
           <div class="form-group">
-            <label for="apellido">Apellido:</label>
+            <label for="apellido">
+              <i class="fas fa-user"></i>
+              Apellido:
+            </label>
             <input type="text" id="apellido" name="apellido" required>
           </div>
           
           <div class="form-group">
-            <label for="cargo">Cargo:</label>
+            <label for="cargo">
+              <i class="fas fa-briefcase"></i>
+              Cargo:
+            </label>
             <input type="text" id="cargo" name="cargo">
           </div>
           
           <div class="form-group">
-            <label for="email">Email:</label>
+            <label for="email">
+              <i class="fas fa-envelope"></i>
+              Email:
+            </label>
             <input type="email" id="email" name="email">
           </div>
           
           <div class="form-group">
-            <label for="telefono">Teléfono:</label>
+            <label for="telefono">
+              <i class="fas fa-phone"></i>
+              Teléfono:
+            </label>
             <input type="tel" id="telefono" name="telefono">
           </div>
           
           <div class="form-buttons">
-            <button type="button" id="btnLimpiar" class="btn btn-cancel">Limpiar</button>
-            <button type="submit" class="btn btn-submit">Guardar</button>
+            <button type="button" id="btnLimpiar" class="btn btn-cancel">
+              <i class="fas fa-eraser"></i>
+              Limpiar
+            </button>
+            <button type="submit" class="btn btn-submit">
+              <i class="fas fa-save"></i>
+              Guardar
+            </button>
           </div>
         </form>
       </section>
@@ -88,8 +157,14 @@
       <section class="data-section">
         <!-- Sección de búsqueda -->
         <div class="search-container">
-          <input type="text" id="searchInput" placeholder="Buscar por nombre o apellido...">
-          <button id="btnBuscar" class="btn btn-search">Buscar</button>
+          <div class="search-input-wrapper">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Buscar por nombre o apellido...">
+          </div>
+          <button id="btnBuscar" class="btn btn-search">
+            <i class="fas fa-search"></i>
+            Buscar
+          </button>
         </div>
 
         <!-- Tabla de empleados -->
@@ -97,13 +172,13 @@
           <table id="tablaEmpleados">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Cargo</th>
-                <th>Email</th>
-                <th>Teléfono</th>
-                <th>Acciones</th>
+                <th><i class="fas fa-hashtag"></i> ID</th>
+                <th><i class="fas fa-user"></i> Nombre</th>
+                <th><i class="fas fa-user"></i> Apellido</th>
+                <th><i class="fas fa-briefcase"></i> Cargo</th>
+                <th><i class="fas fa-envelope"></i> Email</th>
+                <th><i class="fas fa-phone"></i> Teléfono</th>
+                <th><i class="fas fa-cogs"></i> Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -117,7 +192,10 @@
   
   <footer>
     <div class="footer-content">
-      <p>&copy; 2025 Sistema Hospitalario Integrado</p>
+      <p>
+        <i class="fas fa-copyright"></i>
+        2025 Sistema Hospitalario Integrado
+      </p>
     </div>
   </footer>
 

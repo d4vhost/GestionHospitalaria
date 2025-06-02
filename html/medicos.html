@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gestión de Médicos - Sistema Hospitalario</title>
   <link rel="stylesheet" href="/css/medicos.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <header>
@@ -14,9 +14,9 @@
         <i class="fas fa-bars"></i>
       </button>
     </div>
-    <h1 class="site-title">Sistema Hospitalario</h1>
+    <h1 class="site-title">Gestión de Médicos</h1>
     <div class="user-info">
-      <span class="user-name">Admin</span>
+      <span class="user-name">Dr. Admin</span>
       <a href="#" class="logout-btn">Cerrar Sesión</a>
     </div>
   </header>
@@ -28,7 +28,7 @@
       </button>
     </div>
     <ul>
-      <li><a href="index.html">Inicio</a></li>
+      <li><a href="home.html">Inicio</a></li>
       <li><a href="/html/medicos.html" class="active">Médicos</a></li>
       <li><a href="/html/especialidades.html">Especialidades</a></li>
       <li><a href="/html/centros-medicos.html">Centros Médicos</a></li>
@@ -37,98 +37,136 @@
       <li><a href="/html/empleados.html">Empleados</a></li>
     </ul>
   </nav>
-  
-  <div id="overlay"></div>
-  
-  <main>
-    <section class="content-header">
-      <h1>Gestión de Médicos</h1>
-    </section>
 
-    <div class="content-layout">
-      <!-- Formulario para agregar/editar médico -->
+  <div id="overlay"></div>
+
+  <main class="main-content">
+    <!-- Encabezado con buscador -->
+    <div class="top-header">
+      <div class="header-right">
+        <div class="search-container">
+          <input type="text" id="searchInput" placeholder="Buscar médicos...">
+          <button id="btnBuscar" class="search-btn">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenido Principal de Gestión -->
+    <div class="content-wrapper">
+      <!-- Formulario de Médicos -->
       <section class="form-section">
-        <h2 id="formTitle">Nuevo Médico</h2>
-        <form id="medicoForm">
-          <input type="hidden" id="medicoId" value="">
-          
-          <div class="form-group">
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required>
+        <div class="card">
+          <div class="card-header">
+            <h2 id="formTitle">
+              <i class="fas fa-user-plus"></i> Nuevo Médico
+            </h2>
           </div>
-          
-          <div class="form-group">
-            <label for="apellido">Apellido:</label>
-            <input type="text" id="apellido" name="apellido" required>
-          </div>
-          
-          <div class="form-group">
-            <label for="especialidad">Especialidad:</label>
-            <select id="especialidad" name="especialidad" required>
-              <option value="">Seleccionar especialidad</option>
-              <!-- Opciones se cargarán desde JS -->
-            </select>
-          </div>
-          
-          <div class="form-group">
-            <label for="centro">Centro Médico:</label>
-            <select id="centro" name="centro" required>
-              <option value="">Seleccionar centro médico</option>
-              <!-- Opciones se cargarán desde JS -->
-            </select>
-          </div>
-          
-          <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-          </div>
-          
-          <div class="form-group">
-            <label for="telefono">Teléfono:</label>
-            <input type="text" id="telefono" name="telefono" required>
-          </div>
-          
-          <div class="form-buttons">
-            <button type="button" id="btnLimpiar" class="btn btn-cancel">Limpiar</button>
-            <button type="submit" class="btn btn-submit">Guardar</button>
-          </div>
-        </form>
+          <form id="medicoForm" class="form-grid">
+            <input type="hidden" id="medicoId" value="">
+
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <div class="input-icon">
+                <i class="fas fa-user"></i>
+                <input type="text" id="nombre" name="nombre" placeholder="Nombre del médico" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="apellido">Apellido</label>
+              <div class="input-icon">
+                <i class="fas fa-user"></i>
+                <input type="text" id="apellido" name="apellido" placeholder="Apellido del médico" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="especialidad">Especialidad</label>
+              <div class="input-icon">
+                <i class="fas fa-stethoscope"></i>
+                <select id="especialidad" name="especialidad" required>
+                  <option value="">Seleccionar especialidad</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="centro">Centro Médico</label>
+              <div class="input-icon">
+                <i class="fas fa-hospital"></i>
+                <select id="centro" name="centro" required>
+                  <option value="">Seleccionar centro médico</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email</label>
+              <div class="input-icon">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="email" name="email" placeholder="Correo electrónico" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="telefono">Teléfono</label>
+              <div class="input-icon">
+                <i class="fas fa-phone"></i>
+                <input type="tel" id="telefono" name="telefono" placeholder="Número de teléfono" required>
+              </div>
+            </div>
+
+            <div class="form-actions">
+              <button type="button" id="btnLimpiar" class="btn btn-secondary">
+                <i class="fas fa-eraser"></i> Limpiar
+              </button>
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Guardar
+              </button>
+            </div>
+          </form>
+        </div>
       </section>
 
-      <!-- Sección de datos (tabla) -->
-      <section class="data-section">
-        <!-- Sección de búsqueda -->
-        <div class="search-container">
-          <input type="text" id="searchInput" placeholder="Buscar por nombre, apellido, especialidad o centro médico...">
-          <button id="btnBuscar" class="btn btn-search">Buscar</button>
-        </div>
-
-        <!-- Tabla de médicos -->
-        <div class="table-container">
-          <table id="tablaMedicos">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Especialidad</th>
-                <th>Centro Médico</th>
-                <th>Email</th>
-                <th>Teléfono</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Los datos se cargarán dinámicamente con JS -->
-            </tbody>
-          </table>
+      <!-- Tabla de Médicos -->
+      <section class="table-section">
+        <div class="card">
+          <div class="card-header">
+            <h2><i class="fas fa-list"></i> Listado de Médicos</h2>
+          </div>
+          <div class="table-responsive">
+            <table id="tablaMedicos">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Nombre Completo</th>
+                  <th>Especialidad</th>
+                  <th>Centro Médico</th>
+                  <th>Email</th>
+                  <th>Teléfono</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colspan="7" class="text-center">Cargando datos...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
     </div>
   </main>
 
+  <!-- Notificación -->
+  <div id="notificacion" class="notification"></div>
+
   <footer>
     <div class="footer-content">
-      <p>&copy; 2025 Sistema Hospitalario Integrado</p>
+      <p>&copy; 2025 Sistema Hospitalario Nacional. Todos los derechos reservados.</p>
     </div>
   </footer>
 

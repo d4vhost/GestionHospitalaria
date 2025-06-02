@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Gestión de Especialidades - Sistema Hospitalario</title>
-  <link rel="stylesheet" href="/css/especialidades.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <link rel="stylesheet" href="/css/especialidades.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
   <header>
@@ -28,57 +28,60 @@
       </button>
     </div>
     <ul>
-      <li><a href="index.html">Inicio</a></li>
-      <li><a href="medicos.html">Médicos</a></li>
-      <li><a href="especialidades.html" class="active">Especialidades</a></li>
-      <li><a href="centros-medicos.html">Centros Médicos</a></li>
-      <li><a href="consultas.html">Consultas</a></li>
-      <li><a href="clientes.html">Clientes</a></li>
-      <li><a href="empleados.html">Empleados</a></li>
+      <li><a href="home.html"><i class="fas fa-home"></i> Inicio</a></li>
+      <li><a href="medicos.html"><i class="fas fa-user-md"></i> Médicos</a></li>
+      <li><a href="especialidades.html" class="active"><i class="fas fa-stethoscope"></i> Especialidades</a></li>
+      <li><a href="centros-medicos.html"><i class="fas fa-hospital"></i> Centros Médicos</a></li>
+      <li><a href="consultas.html"><i class="fas fa-notes-medical"></i> Consultas</a></li>
+      <li><a href="clientes.html"><i class="fas fa-users"></i> Clientes</a></li>
+      <li><a href="empleados.html"><i class="fas fa-id-badge"></i> Empleados</a></li>
     </ul>
   </nav>
- 
+
   <div id="overlay"></div>
- 
+
   <main>
     <section class="content-header">
       <h1>Gestión de Especialidades</h1>
     </section>
 
-    <!-- Formulario para agregar/editar especialidad -->
     <section class="form-section">
       <h2>Nueva Especialidad</h2>
       <form id="especialidadForm">
-        <input type="hidden" id="especialidadId" value="">
-        
+        <input type="hidden" id="especialidadId" value="" />
+
         <div class="form-group">
           <label for="nombre">Nombre:</label>
-          <input type="text" id="nombre" name="nombre" required>
+          <input type="text" id="nombre" name="nombre" placeholder="Nombre de la especialidad" required />
         </div>
-        
+
         <div class="form-group">
           <label for="descripcion">Descripción:</label>
-          <textarea id="descripcion" name="descripcion" rows="4"></textarea>
+          <textarea id="descripcion" name="descripcion" rows="4" placeholder="Descripción detallada..."></textarea>
         </div>
-        
+
         <div class="form-buttons">
-          <button type="button" id="btnLimpiar" class="btn btn-cancel">Limpiar</button>
-          <button type="submit" class="btn btn-submit">Guardar</button>
+          <button type="button" id="btnLimpiar" class="btn btn-cancel">
+            <i class="fas fa-eraser"></i> Limpiar
+          </button>
+          <button type="submit" class="btn btn-submit">
+            <i class="fas fa-save"></i> Guardar
+          </button>
         </div>
       </form>
     </section>
-    
-    <!-- Sección de búsqueda -->
+
     <div class="search-section">
       <div class="search-input-container">
-        <input type="text" id="searchInput" placeholder="Buscar por nombre de especialidad...">
+        <input type="text" id="searchInput" placeholder="Buscar por nombre de especialidad..." />
       </div>
       <div class="search-button-container">
-        <button id="btnBuscar" class="btn btn-search">Buscar</button>
+        <button id="btnBuscar" class="btn btn-search">
+          <i class="fas fa-search"></i> Buscar
+        </button>
       </div>
     </div>
-    
-    <!-- Tabla de especialidades -->
+
     <div class="table-container">
       <table id="tablaEspecialidades">
         <thead>
@@ -90,35 +93,18 @@
           </tr>
         </thead>
         <tbody>
-          <!-- Aquí se cargarán los datos desde la API -->
+          <tr><td colspan="4" class="text-center">Cargando datos...</td></tr>
         </tbody>
       </table>
     </div>
   </main>
-  
+
   <footer>
-    <p>&copy; 2025 Sistema Hospitalario Integrado</p>
+    <div class="footer-content">
+      <p>&copy; 2025 Sistema Hospitalario Nacional. Todos los derechos reservados.</p>
+    </div>
   </footer>
 
-  <!-- Código básico para funcionalidad de menú desplegable -->
-  <script>
-    document.getElementById('menu-toggle').addEventListener('click', function() {
-      document.getElementById('sidebar').classList.add('active');
-      document.getElementById('overlay').classList.add('active');
-    });
-    
-    document.getElementById('close-menu').addEventListener('click', function() {
-      document.getElementById('sidebar').classList.remove('active');
-      document.getElementById('overlay').classList.remove('active');
-    });
-    
-    document.getElementById('overlay').addEventListener('click', function() {
-      document.getElementById('sidebar').classList.remove('active');
-      document.getElementById('overlay').classList.remove('active');
-    });
-  </script>
-  
-  <!-- Importar el archivo JavaScript para la gestión de especialidades -->
   <script src="/js/especialidades.js"></script>
 </body>
 </html>

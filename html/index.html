@@ -1,75 +1,137 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistema Hospitalario Integrado</title>
-  <link rel="stylesheet" href="/css/index.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centro Médico Hospitalario - Inicio de Sesión</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <header>
-    <div class="hamburger-menu">
-      <button id="menu-toggle" aria-label="Menú principal">
-        <i class="fas fa-bars"></i>
-      </button>
-    </div>
-    <h1 class="site-title">Sistema Hospitalario</h1>
-    <div class="user-info">
-      <span class="user-name">Admin</span>
-      <a href="#" class="logout-btn">Cerrar Sesión</a>
-    </div>
-  </header>
-  <nav id="sidebar">
-    <div class="sidebar-header">
-      <button id="close-menu" aria-label="Cerrar menú">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <ul>
-      <li><a href="index.html" class="active">Inicio</a></li>
-      <li><a href="/html/medicos.html">Médicos</a></li>
-      <li><a href="/html/especialidades.html">Especialidades</a></li>
-      <li><a href="/html/centros-medicos.html">Centros Médicos</a></li>
-      <li><a href="/html/consultas.html">Consultas</a></li>
-      <li><a href="/html/clientes.html">Clientes</a></li>
-      <li><a href="/html/empleados.html">Empleados</a></li>
-    </ul>
-  </nav>
- 
-  <div id="overlay"></div>
-  <main>
-    <section class="hero">
-      <h1>Sistema de Gestión Hospitalaria Distribuida</h1>
-      <p>Plataforma integrada para la gestión de múltiples centros médicos</p>
-    </section>
-    <section class="dashboard">
-      <h2>Panel de Control</h2>
-      <div class="dashboard-stats">
-        <div class="stat-card">
-          <h3>Centros Médicos</h3>
-          <div id="centros-count" class="stat-value">Cargando...</div>
+    <!-- Header fijo -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="header-logo">
+                <i class="fas fa-hospital"></i>
+                <span>Sistema Hospitalario Nacional</span>
+            </div>
+            <div class="header-nav">
+                <a href="#" class="nav-item active">Iniciar Sesión</a>
+                <a href="#" class="nav-item">Información</a>
+                <a href="#" class="nav-item">Contacto</a>
+            </div>
         </div>
-        <div class="stat-card">
-          <h3>Médicos</h3>
-          <div id="medicos-count" class="stat-value">Cargando...</div>
+    </header>
+
+    <div class="main-content">
+        <div class="container">
+            <div class="login-container">
+                <div class="branding">
+                    <div class="logo">
+                        <i class="fas fa-hospital"></i>
+                    </div>
+                    <h2>Centro Médico Hospitalario</h2>
+                    <p>Sistema de Administración</p>
+                </div>
+                
+                <div class="form-container">
+                    <h1>Iniciar Sesión</h1>
+                    <p class="subtitle">Ingrese sus credenciales para acceder al sistema</p>
+                    
+                    <form id="loginForm" action="#" method="post">
+                        <div class="input-group">
+                            <label for="centroMedico">Centro Médico</label>
+                            <div class="input-field">
+                                <i class="fas fa-hospital-alt"></i>
+                                <select id="centroMedico" name="centroMedico" required>
+                                    <option value="" disabled selected>Seleccione un centro médico</option>
+                                    <!-- Los centros médicos serán cargados dinámicamente desde la API -->
+                                </select>
+                                <i class="fas fa-chevron-down select-arrow"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="email">Correo Electrónico</label>
+                            <div class="input-field">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="email" name="email" placeholder="usuario@centromedico.com" required>
+                            </div>
+                        </div>
+                        
+                        <div class="input-group">
+                            <label for="password">Contraseña</label>
+                            <div class="input-field">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="password" name="password" placeholder="••••••••" required>
+                                <i class="fas fa-eye-slash toggle-password" id="togglePassword"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="options">
+                            <div class="remember-me">
+                                <input type="checkbox" id="remember" name="remember">
+                                <label for="remember">Recordarme</label>
+                            </div>
+                            <a href="#" class="forgot-password">¿Olvidó su contraseña?</a>
+                        </div>
+                        
+                        <button type="submit" class="login-btn">Iniciar Sesión</button>
+                    </form>
+                    
+                    <div class="separator">
+                        <span>o</span>
+                    </div>
+                    
+                    <div class="help-section">
+                        <p>¿Problemas con el acceso?</p>
+                        <a href="#" class="help-link">Contactar soporte técnico</a>
+                    </div>
+                </div>
+                
+                <div class="login-footer">
+                    <p>Acceda de forma segura al sistema de administración hospitalaria</p>
+                </div>
+            </div>
+            
+            <div class="image-container">
+                <div class="overlay"></div>
+            </div>
         </div>
-        <div class="stat-card">
-          <h3>Especialidades</h3>
-          <div id="especialidades-count" class="stat-value">Cargando...</div>
-        </div>
-        <div class="stat-card">
-          <h3>Consultas</h3>
-          <div id="consultas-count" class="stat-value">Cargando...</div>
-        </div>
-      </div>
-    </section>
-  </main>
-  <footer>
-    <div class="footer-content">
-      <p>&copy; 2025 Sistema Hospitalario Integrado</p>
     </div>
-  </footer>
-  <script src="/js/index.js"></script>
+
+    <!-- Footer fijo -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-info">
+                <p>&copy; 2025 Sistema Hospitalario Nacional. Todos los derechos reservados.</p>
+            </div>
+            <div class="footer-links">
+                <a href="#">Términos y Condiciones</a>
+                <a href="#">Política de Privacidad</a>
+                <a href="#">Ayuda</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this;
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            }
+        });
+    </script>
+    
+    <!-- Incluir el archivo de JavaScript para la validación del login -->
+    <script src="../js/index.js"></script>
 </body>
 </html>

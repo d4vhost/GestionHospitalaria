@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gestión de Centros Médicos - Sistema Hospitalario</title>
-  <link rel="stylesheet" href="/css/centros-medicos.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+  <link rel="stylesheet" href="/css/centros-medicos.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 </head>
 <body>
   <header>
@@ -28,109 +28,125 @@
       </button>
     </div>
     <ul>
-      <li><a href="index.html">Inicio</a></li>
-      <li><a href="medicos.html">Médicos</a></li>
-      <li><a href="especialidades.html">Especialidades</a></li>
-      <li><a href="centros-medicos.html" class="active">Centros Médicos</a></li>
-      <li><a href="consultas.html">Consultas</a></li>
-      <li><a href="clientes.html">Clientes</a></li>
-      <li><a href="empleados.html">Empleados</a></li>
+      <li><a href="home.html"><i class="fas fa-home"></i> Inicio</a></li>
+      <li><a href="medicos.html"><i class="fas fa-user-md"></i> Médicos</a></li>
+      <li><a href="especialidades.html"><i class="fas fa-stethoscope"></i> Especialidades</a></li>
+      <li><a href="centros-medicos.html" class="active"><i class="fas fa-hospital"></i> Centros Médicos</a></li>
+      <li><a href="consultas.html"><i class="fas fa-notes-medical"></i> Consultas</a></li>
+      <li><a href="clientes.html"><i class="fas fa-users"></i> Clientes</a></li>
+      <li><a href="empleados.html"><i class="fas fa-id-badge"></i> Empleados</a></li>
     </ul>
   </nav>
- 
+
   <div id="overlay"></div>
- 
-  <main>
+
+  <main class="main-content">
     <section class="content-header">
       <h1>Gestión de Centros Médicos</h1>
     </section>
 
-    <!-- Formulario para agregar/editar centro médico -->
+    <!-- Formulario de centro médico -->
     <section class="form-section">
-      <h2>Nuevo Centro Médico</h2>
-      <form id="centroMedicoForm">
-        <input type="hidden" id="centroId" value="">
-        
-        <div class="form-group">
-          <label for="nombre">Nombre:</label>
-          <input type="text" id="nombre" name="nombre" required>
+      <div class="card">
+        <div class="card-header">
+          <h2><i class="fas fa-plus-circle"></i> Nuevo Centro Médico</h2>
         </div>
-        
-        <div class="form-group">
-          <label for="ciudad">Ciudad:</label>
-          <input type="text" id="ciudad" name="ciudad" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="direccion">Dirección:</label>
-          <input type="text" id="direccion" name="direccion">
-        </div>
-        
-        <div class="form-group">
-          <label for="telefono">Teléfono:</label>
-          <input type="tel" id="telefono" name="telefono">
-        </div>
-        
-        <div class="form-buttons">
-          <button type="button" id="btnLimpiar" class="btn btn-cancel">Limpiar</button>
-          <button type="submit" class="btn btn-submit">Guardar</button>
-        </div>
-      </form>
+        <form id="centroMedicoForm" class="form-grid">
+          <input type="hidden" id="centroId" value="" />
+
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <div class="input-icon">
+              <i class="fas fa-hospital"></i>
+              <input type="text" id="nombre" name="nombre" placeholder="Nombre del centro" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="ciudad">Ciudad</label>
+            <div class="input-icon">
+              <i class="fas fa-city"></i>
+              <input type="text" id="ciudad" name="ciudad" placeholder="Ciudad" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="direccion">Dirección</label>
+            <div class="input-icon">
+              <i class="fas fa-map-marker-alt"></i>
+              <input type="text" id="direccion" name="direccion" placeholder="Dirección" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="telefono">Teléfono</label>
+            <div class="input-icon">
+              <i class="fas fa-phone"></i>
+              <input type="tel" id="telefono" name="telefono" placeholder="Número de teléfono" />
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" id="btnLimpiar" class="btn btn-secondary">
+              <i class="fas fa-eraser"></i> Limpiar
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-save"></i> Guardar
+            </button>
+          </div>
+        </form>
+      </div>
     </section>
-    
-    <!-- Sección de búsqueda -->
-    <div class="search-section">
-      <div class="search-input-container">
-        <input type="text" id="searchInput" placeholder="Buscar por nombre de centro médico...">
-      </div>
-      <div class="search-button-container">
-        <button id="btnBuscar" class="btn btn-search">Buscar</button>
+
+    <!-- Búsqueda -->
+    <div class="top-header">
+      <div class="header-right">
+        <div class="search-container">
+          <input type="text" id="searchInput" placeholder="Buscar centros médicos..." />
+          <button id="btnBuscar" class="search-btn">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
       </div>
     </div>
-    
-    <!-- Tabla de centros médicos -->
-    <div class="table-container">
-      <table id="tablaCentrosMedicos">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Ciudad</th>
-            <th>Dirección</th>
-            <th>Teléfono</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Aquí se cargarán los datos desde la API -->
-        </tbody>
-      </table>
-    </div>
+
+    <!-- Tabla -->
+    <section class="table-section">
+      <div class="card">
+        <div class="card-header">
+          <h2><i class="fas fa-list"></i> Listado de Centros Médicos</h2>
+        </div>
+        <div class="table-responsive">
+          <table id="tablaCentrosMedicos">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Ciudad</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="6" class="text-center">Cargando datos...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
   </main>
-  
+
+  <!-- Notificación -->
+  <div id="notificacion" class="notification"></div>
+
   <footer>
-    <p>&copy; 2025 Sistema Hospitalario Integrado</p>
+    <div class="footer-content">
+      <p>&copy; 2025 Sistema Hospitalario Nacional. Todos los derechos reservados.</p>
+    </div>
   </footer>
 
-  <!-- Código básico para funcionalidad de menú desplegable -->
-  <script>
-    document.getElementById('menu-toggle').addEventListener('click', function() {
-      document.getElementById('sidebar').classList.add('active');
-      document.getElementById('overlay').classList.add('active');
-    });
-    
-    document.getElementById('close-menu').addEventListener('click', function() {
-      document.getElementById('sidebar').classList.remove('active');
-      document.getElementById('overlay').classList.remove('active');
-    });
-    
-    document.getElementById('overlay').addEventListener('click', function() {
-      document.getElementById('sidebar').classList.remove('active');
-      document.getElementById('overlay').classList.remove('active');
-    });
-  </script>
-  
-  <!-- Importar el archivo JavaScript para la gestión de centros médicos -->
+  <!-- Script general -->
   <script src="/js/centros-medicos.js"></script>
 </body>
 </html>

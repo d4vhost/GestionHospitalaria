@@ -7,6 +7,24 @@ let editandoId = null;
 // Eventos DOM
 document.addEventListener('DOMContentLoaded', async () => {
   try {
+    // Verificar si el usuario está autenticado
+    const usuarioID = sessionStorage.getItem('usuarioID');
+    const centroID = sessionStorage.getItem('centroID');
+   
+    if (!usuarioID || !centroID) {
+        // Si no hay sesión, redirigir al login
+        window.location.href = '/';
+        return;
+    }
+   
+    // Mostrar información del centro médico actual
+    const centroNombre = sessionStorage.getItem('centraNombre');
+    // Verificar si el elemento existe antes de modificarlo
+    const centroActualEl = document.querySelector('.site-title');
+    if (centroNombre && centroActualEl) {
+        centroActualEl.textContent = `Sistema Hospitalario - ${centroNombre}`;
+    }
+    
     // Inicializar menú hamburguesa
     initMenuHamburguesa();
     
@@ -23,6 +41,15 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (e.key === 'Enter') buscarMedicos();
     });
     
+    // Manejar el cierre de sesión
+    const logoutBtn = document.querySelector('.logout-btn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function() {
+            sessionStorage.clear();
+            window.location.href = '/';
+        });
+    }
+    
     console.log('Inicialización completada');
     console.log('Especialidades cargadas:', especialidadesData.length);
     console.log('Centros cargados:', centrosData.length);
@@ -33,30 +60,39 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-// Funciones para el menú hamburguesa (sin cambios)
+// Funciones para el menú hamburguesa (implementación consistente con home.js)
 function initMenuHamburguesa() {
   const menuToggle = document.getElementById('menu-toggle');
   const closeMenu = document.getElementById('close-menu');
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('overlay');
+   
+  if (menuToggle && sidebar && overlay) {
+    menuToggle.addEventListener('click', function() {
+      sidebar.classList.add('active');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  }
+   
+  function closeSidebar() {
+    if (sidebar && overlay) {
+      sidebar.classList.remove('active');
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+   
+  if (closeMenu) {
+    closeMenu.addEventListener('click', closeSidebar);
+  }
   
-  menuToggle.addEventListener('click', () => {
-    sidebar.classList.add('active');
-    overlay.classList.add('active');
-  });
-  
-  closeMenu.addEventListener('click', () => {
-    sidebar.classList.remove('active');
-    overlay.classList.remove('active');
-  });
-  
-  overlay.addEventListener('click', () => {
-    sidebar.classList.remove('active');
-    overlay.classList.remove('active');
-  });
+  if (overlay) {
+    overlay.addEventListener('click', closeSidebar);
+  }
 }
 
-// Funciones para cargar datos desde la API (modificadas para manejar mejor la estructura de datos)
+// Funciones para cargar datos desde la API
 async function cargarEspecialidades() {
   try {
     const response = await fetch('https://localhost:7207/api/Especialidades');
@@ -164,7 +200,7 @@ async function cargarMedicos() {
   }
 }
 
-// Función para buscar referencias por ID (nuevo)
+// Función para buscar referencias por ID
 function findReferenceById(data, refId) {
   // Si el objeto actual tiene el id buscado
   if (data && data.$id === refId) {
@@ -217,19 +253,6 @@ function renderizarTablaMedicos(medicos) {
     }
     
     const tr = document.createElement('tr');
-    
-    // Depuración
-    console.log('Procesando médico:', medico);
-    console.log('especialidadID:', medico.especialidadID);
-    console.log('centroID:', medico.centroID);
-    
-    // Verificar si las especialidades y centros se cargaron correctamente
-    if (especialidadesData.length === 0) {
-      console.warn('Datos de especialidades no disponibles');
-    }
-    if (centrosData.length === 0) {
-      console.warn('Datos de centros no disponibles');
-    }
     
     // Encontrar nombres de especialidad y centro con mejor manejo de errores
     let especialidadNombre = 'Desconocida';
@@ -396,7 +419,7 @@ function editarMedico(id) {
   console.log('Datos del médico a editar:', medico);
   
   // Actualizar formulario con datos del médico
-  document.getElementById('formTitle').textContent = 'Editar Médico';
+  document.getElementById('formTitle').innerHTML = '<i class="fas fa-user-edit"></i> Editar Médico';
   document.getElementById('medicoId').value = medico.medicoID;
   document.getElementById('nombre').value = medico.nombre || '';
   document.getElementById('apellido').value = medico.apellido || '';
@@ -461,7 +484,7 @@ async function eliminarMedico(id) {
 // Función mejorada para limpiar formulario
 function limpiarFormulario() {
   document.getElementById('medicoForm').reset();
-  document.getElementById('formTitle').textContent = 'Nuevo Médico';
+  document.getElementById('formTitle').innerHTML = '<i class="fas fa-user-plus"></i> Nuevo Médico';
   document.getElementById('medicoId').value = '';
   editandoId = null;
   console.log('Formulario limpiado');
@@ -509,24 +532,26 @@ function buscarMedicos() {
   renderizarTablaMedicos(medicosFiltered);
 }
 
-// Función mejorada para mostrar notificaciones (sin cambios esenciales)
+// Función mejorada para mostrar notificaciones
 function mostrarNotificacion(mensaje, tipo) {
   console.log(`Notificación (${tipo}): ${mensaje}`);
   
   // Verificar si ya existe una notificación
-  let notificacion = document.querySelector('.notificacion');
+  let notificacion = document.getElementById('notificacion');
   
-  if (notificacion) {
-    // Remover notificación existente
-    notificacion.remove();
+  if (!notificacion) {
+    // Crear el elemento de notificación si no existe
+    notificacion = document.createElement('div');
+    notificacion.id = 'notificacion';
+    notificacion.className = 'notification';
+    document.body.appendChild(notificacion);
   }
   
-  // Crear nueva notificación
-  notificacion = document.createElement('div');
-  notificacion.className = `notificacion ${tipo}`;
+  // Actualizar la notificación
   notificacion.textContent = mensaje;
+  notificacion.className = `notification ${tipo}`;
   
-  // Estilos para la notificación
+  // Asegurar que los estilos estén aplicados (por si acaso no están en CSS)
   notificacion.style.position = 'fixed';
   notificacion.style.top = '20px';
   notificacion.style.right = '20px';
@@ -538,15 +563,12 @@ function mostrarNotificacion(mensaje, tipo) {
   
   // Estilos según tipo
   if (tipo === 'success') {
-    notificacion.style.backgroundColor = 'var(--primary-light)';
+    notificacion.style.backgroundColor = '#4CAF50';
     notificacion.style.color = 'white';
   } else {
-    notificacion.style.backgroundColor = 'var(--danger)';
+    notificacion.style.backgroundColor = '#F44336';
     notificacion.style.color = 'white';
   }
-  
-  // Agregar al DOM
-  document.body.appendChild(notificacion);
   
   // Mostrar con animación
   setTimeout(() => {
@@ -557,7 +579,7 @@ function mostrarNotificacion(mensaje, tipo) {
   setTimeout(() => {
     notificacion.style.opacity = '0';
     setTimeout(() => {
-      notificacion.remove();
+      notificacion.style.opacity = '0';
     }, 300);
   }, 3000);
 }
